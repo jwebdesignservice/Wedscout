@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --font-cormorant: "Cormorant Garamond", serif;
+  --font-poppins: "Poppins", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #FFF4E2;
+  color: #1A1A1A;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF4E2;
+}
+::-webkit-scrollbar-thumb {
+  background: #2B895A;
+  border-radius: 3px;
+}
