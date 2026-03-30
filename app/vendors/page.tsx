@@ -31,7 +31,7 @@ import {
   VideographyGraphic,
   PlanningGraphic,
 } from "@/components/graphics/VendorCardGraphics";
-import { vendors, type Vendor } from "@/lib/vendors";
+import { getVendors, type SupabaseVendor } from "@/lib/supabase-vendors";
 
 const categoryIcons: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   Photography: Camera,
@@ -102,9 +102,31 @@ const card = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
+function LoadingSkeleton() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="rounded-3xl overflow-hidden bg-white shadow-md shadow-[#1A1A1A]/5 animate-pulse">
+          <div className="h-52 bg-[#F7E9D4]" />
+          <div className="p-5 space-y-3">
+            <div className="h-3 bg-[#F7E9D4] rounded-full w-1/3" />
+            <div className="h-5 bg-[#F7E9D4] rounded-full w-2/3" />
+            <div className="h-3 bg-[#F7E9D4] rounded-full w-1/2" />
+            <div className="h-10 bg-[#F7E9D4] rounded-full mt-4" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function VendorsContent() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category") || "";
+
+  const [vendors, setVendors] = useState<SupabaseVendor[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [search, setSearch] = useState("");
   const [location, setLocation] = useState("");
@@ -116,7 +138,13 @@ function VendorsContent() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(9);
 
-  // Lock body scroll when drawer is open
+  useEffect(() => {
+    getVendors()
+      .then(setVendors)
+      .catch(() => setError("Unable to load vendors. Please try again."))
+      .finally(() => setLoading(false));
+  }, []);
+
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -135,7 +163,7 @@ function VendorsContent() {
       selectedCategories.includes(v.category);
     const matchPrice =
       selectedPrices.length === 0 ||
-      selectedPrices.some((p) => v.priceRange.includes(p));
+      selectedPrices.some((p) => v.price_range.includes(p));
     const matchRating = !minRating || v.rating >= minRating;
     return matchSearch && matchLocation && matchCategory && matchPrice && matchRating;
   });
@@ -152,12 +180,7 @@ function VendorsContent() {
       clear: () => setSelectedPrices((prev) => prev.filter((x) => x !== p)),
     })),
     ...(minRating
-      ? [
-          {
-            label: `${minRating}+ Stars`,
-            clear: () => setMinRating(null),
-          },
-        ]
+      ? [{ label: `${minRating}+ Stars`, clear: () => setMinRating(null) }]
       : []),
   ];
 
@@ -183,10 +206,7 @@ function VendorsContent() {
             const Icon = categoryIcons[cat];
             const checked = selectedCategories.includes(cat);
             return (
-              <label
-                key={cat}
-                className="flex items-center gap-3 cursor-pointer group"
-              >
+              <label key={cat} className="flex items-center gap-3 cursor-pointer group">
                 <div
                   className={`w-4 h-4 rounded border flex items-center justify-center transition-colors duration-150 ${
                     checked
@@ -197,33 +217,15 @@ function VendorsContent() {
                 >
                   {checked && (
                     <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                      <path
-                        d="M1 4L3.5 6.5L9 1"
-                        stroke="white"
-                        strokeWidth="1.8"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
+                      <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   )}
                 </div>
-                <input
-                  type="checkbox"
-                  className="sr-only"
-                  checked={checked}
-                  onChange={() => toggleCategory(cat)}
-                />
+                <input type="checkbox" className="sr-only" checked={checked} onChange={() => toggleCategory(cat)} />
                 {Icon && (
-                  <Icon
-                    size={14}
-                    className={`transition-colors ${checked ? "text-[#2B895A]" : "text-[#1A1A1A]/50"}`}
-                  />
+                  <Icon size={14} className={`transition-colors ${checked ? "text-[#2B895A]" : "text-[#1A1A1A]/50"}`} />
                 )}
-                <span
-                  className={`font-body text-sm transition-colors ${
-                    checked ? "text-[#1A1A1A] font-medium" : "text-[#1A1A1A]/70"
-                  }`}
-                >
+                <span className={`font-body text-sm transition-colors ${checked ? "text-[#1A1A1A] font-medium" : "text-[#1A1A1A]/70"}`}>
                   {cat}
                 </span>
               </label>
@@ -263,19 +265,14 @@ function VendorsContent() {
           {ratingOptions.map((opt) => (
             <button
               key={opt.value}
-              onClick={() =>
-                setMinRating(minRating === opt.value ? null : opt.value)
-              }
+              onClick={() => setMinRating(minRating === opt.value ? null : opt.value)}
               className={`w-full flex items-center gap-2 text-left font-body text-sm px-3 py-2 rounded-xl transition-all duration-150 ${
                 minRating === opt.value
                   ? "bg-[#2B895A]/10 text-[#2B895A] font-medium"
                   : "text-[#1A1A1A]/70 hover:bg-[#F7E9D4]"
               }`}
             >
-              <Star
-                size={13}
-                className={`fill-current ${minRating === opt.value ? "text-[#2B895A]" : "text-[#1A1A1A]/40"}`}
-              />
+              <Star size={13} className={`fill-current ${minRating === opt.value ? "text-[#2B895A]" : "text-[#1A1A1A]/40"}`} />
               {opt.label}
             </button>
           ))}
@@ -288,10 +285,7 @@ function VendorsContent() {
           Location
         </h3>
         <div className="relative">
-          <MapPin
-            size={14}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-[#1A1A1A]/40"
-          />
+          <MapPin size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#1A1A1A]/40" />
           <input
             type="text"
             placeholder="City or area..."
@@ -302,15 +296,9 @@ function VendorsContent() {
         </div>
       </div>
 
-      {/* Clear all */}
       {activeFilters.length > 0 && (
         <button
-          onClick={() => {
-            setSelectedCategories([]);
-            setSelectedPrices([]);
-            setMinRating(null);
-            setLocation("");
-          }}
+          onClick={() => { setSelectedCategories([]); setSelectedPrices([]); setMinRating(null); setLocation(""); }}
           className="font-body text-sm text-[#2B895A] underline underline-offset-4 hover:text-[#1F6944] transition-colors"
         >
           Clear all filters
@@ -320,41 +308,24 @@ function VendorsContent() {
   );
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-    >
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
       <Navbar />
 
       {/* Page Header */}
       <section className="bg-[#FFF4E2] pt-[72px]">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <p className="font-body text-xs text-[#2B895A] uppercase tracking-widest font-semibold mb-3">
-              Directory
-            </p>
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <p className="font-body text-xs text-[#2B895A] uppercase tracking-widest font-semibold mb-3">Directory</p>
             <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-light text-[#1A1A1A] leading-tight mb-4">
-              Browse Wedding{" "}
-              <span className="italic">Vendors</span>
+              Browse Wedding <span className="italic">Vendors</span>
             </h1>
             <p className="font-body text-base text-[#1A1A1A]/60 max-w-xl mb-10">
-              Discover curated wedding vendors across Texas — from photographers
-              and florists to planners and venues. Filter by category, price, and
-              location to find your perfect match.
+              Discover curated wedding vendors across Texas — from photographers and florists to planners and venues. Filter by category, price, and location to find your perfect match.
             </p>
 
-            {/* Search bar */}
             <div className="flex flex-col sm:flex-row gap-3 max-w-2xl">
               <div className="relative flex-1">
-                <Search
-                  size={16}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1A1A1A]/40"
-                />
+                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1A1A1A]/40" />
                 <input
                   type="text"
                   placeholder="Search vendors or categories..."
@@ -384,9 +355,7 @@ function VendorsContent() {
       {activeFilters.length > 0 && (
         <div className="bg-[#FFF4E2] border-t border-[#F7E9D4]">
           <div className="max-w-7xl mx-auto px-6 lg:px-10 pb-4 flex flex-wrap gap-2 items-center">
-            <span className="font-body text-xs text-[#1A1A1A]/50 mr-1">
-              Active filters:
-            </span>
+            <span className="font-body text-xs text-[#1A1A1A]/50 mr-1">Active filters:</span>
             {activeFilters.map((f, i) => (
               <button
                 key={i}
@@ -409,9 +378,7 @@ function VendorsContent() {
             <div className="sticky top-[88px] bg-white rounded-3xl p-6 shadow-sm border border-[#F7E9D4]">
               <div className="flex items-center gap-2 mb-6">
                 <Filter size={15} className="text-[#2B895A]" />
-                <h2 className="font-body text-sm font-semibold text-[#1A1A1A]">
-                  Filters
-                </h2>
+                <h2 className="font-body text-sm font-semibold text-[#1A1A1A]">Filters</h2>
               </div>
               <FilterPanel />
             </div>
@@ -419,123 +386,110 @@ function VendorsContent() {
 
           {/* Vendor Grid */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between mb-6">
-              <p className="font-body text-sm text-[#1A1A1A]/60">
-                Showing{" "}
-                <span className="font-semibold text-[#1A1A1A]">
-                  {Math.min(visibleCount, filtered.length)}
-                </span>{" "}
-                of{" "}
-                <span className="font-semibold text-[#1A1A1A]">
-                  {filtered.length}
-                </span>{" "}
-                vendor{filtered.length !== 1 ? "s" : ""}
-              </p>
-            </div>
-
-            {filtered.length === 0 ? (
+            {loading ? (
+              <LoadingSkeleton />
+            ) : error ? (
               <div className="text-center py-24">
-                <p className="font-heading text-3xl text-[#1A1A1A]/30 mb-2">
-                  No vendors found
-                </p>
-                <p className="font-body text-sm text-[#1A1A1A]/40">
-                  Try adjusting your filters or search term.
-                </p>
+                <p className="font-heading text-2xl text-[#1A1A1A]/40 mb-2">Something went wrong</p>
+                <p className="font-body text-sm text-[#1A1A1A]/40">{error}</p>
               </div>
             ) : (
-              <motion.div
-                variants={container}
-                initial="hidden"
-                animate="show"
-                className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"
-              >
-                {visible.map((vendor) => {
-                  const Graphic = categoryGraphics[vendor.category] || PhotographyGraphic;
-                  const tagBg = tagColours[vendor.tag] || "bg-[#1A1A1A]";
-                  return (
-                    <motion.a
-                      key={vendor.id}
-                      href={`/vendors/${vendor.id}`}
-                      variants={card}
-                      whileHover={{ y: -4 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                      className="group rounded-3xl overflow-hidden bg-white border border-transparent
-                        hover:border-[#2B895A]/20 hover:shadow-xl hover:shadow-[#2B895A]/10
-                        shadow-md shadow-[#1A1A1A]/5 transition-all duration-300 flex flex-col"
-                    >
-                      {/* Graphic */}
-                      <div className="h-52 relative overflow-hidden rounded-t-3xl">
-                        <Graphic />
-                        <span
-                          className={`absolute top-4 left-4 ${tagBg} text-white font-body text-[11px] font-semibold px-3 py-1 rounded-full`}
+              <>
+                <div className="flex items-center justify-between mb-6">
+                  <p className="font-body text-sm text-[#1A1A1A]/60">
+                    Showing{" "}
+                    <span className="font-semibold text-[#1A1A1A]">{Math.min(visibleCount, filtered.length)}</span>{" "}
+                    of{" "}
+                    <span className="font-semibold text-[#1A1A1A]">{filtered.length}</span>{" "}
+                    vendor{filtered.length !== 1 ? "s" : ""}
+                  </p>
+                </div>
+
+                {filtered.length === 0 ? (
+                  <div className="text-center py-24">
+                    <p className="font-heading text-3xl text-[#1A1A1A]/30 mb-2">No vendors found</p>
+                    <p className="font-body text-sm text-[#1A1A1A]/40">Try adjusting your filters or search term.</p>
+                  </div>
+                ) : (
+                  <motion.div
+                    variants={container}
+                    initial="hidden"
+                    animate="show"
+                    className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"
+                  >
+                    {visible.map((vendor) => {
+                      const Graphic = categoryGraphics[vendor.category] || PhotographyGraphic;
+                      const tagBg = tagColours[vendor.tag] || "bg-[#1A1A1A]";
+                      return (
+                        <motion.a
+                          key={vendor.id}
+                          href={`/vendors/${vendor.id}`}
+                          variants={card}
+                          whileHover={{ y: -4 }}
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                          className="group rounded-3xl overflow-hidden bg-white border border-transparent hover:border-[#2B895A]/20 hover:shadow-xl hover:shadow-[#2B895A]/10 shadow-md shadow-[#1A1A1A]/5 transition-all duration-300 flex flex-col"
                         >
-                          {vendor.tag}
-                        </span>
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-5 flex flex-col flex-1 gap-2">
-                        <div>
-                          <p className="font-body text-[11px] text-[#2B895A] font-semibold uppercase tracking-wide mb-1">
-                            {vendor.category}
-                          </p>
-                          <h3 className="font-heading text-xl font-semibold text-[#1A1A1A] leading-tight group-hover:text-[#2B895A] transition-colors">
-                            {vendor.name}
-                          </h3>
-                        </div>
-
-                        <div className="flex items-center gap-1.5 text-[#1A1A1A]/65">
-                          <MapPin size={13} />
-                          <span className="font-body text-xs">{vendor.location}</span>
-                        </div>
-
-                        <p className="font-body text-xs text-[#1A1A1A]/60 leading-relaxed line-clamp-2">
-                          {vendor.description}
-                        </p>
-
-                        <div className="flex items-center justify-between pt-3 border-t border-[#F7E9D4] mt-auto">
-                          <div className="flex items-center gap-1.5">
-                            <Star
-                              size={13}
-                              className="text-[#2B895A] fill-[#2B895A]"
-                            />
-                            <span className="font-body text-sm font-semibold text-[#1A1A1A]">
-                              {vendor.rating}
-                            </span>
-                            <span className="font-body text-xs text-[#1A1A1A]/65">
-                              ({vendor.reviews})
+                          <div className="h-52 relative overflow-hidden rounded-t-3xl">
+                            <Graphic />
+                            <span className={`absolute top-4 left-4 ${tagBg} text-white font-body text-[11px] font-semibold px-3 py-1 rounded-full`}>
+                              {vendor.tag}
                             </span>
                           </div>
-                          <span className="font-body text-xs font-semibold text-[#1A1A1A]/65">
-                            {vendor.priceRange}
-                          </span>
-                        </div>
 
-                        <motion.span
-                          whileTap={{ scale: 0.97 }}
-                          className="mt-2 w-full flex items-center justify-center gap-2 bg-[#2B895A] group-hover:bg-[#1F6944] text-white font-body text-sm font-semibold py-2.5 rounded-full transition-colors duration-200"
-                        >
-                          View Profile <ArrowRight size={14} />
-                        </motion.span>
-                      </div>
-                    </motion.a>
-                  );
-                })}
-              </motion.div>
-            )}
+                          <div className="p-5 flex flex-col flex-1 gap-2">
+                            <div>
+                              <p className="font-body text-[11px] text-[#2B895A] font-semibold uppercase tracking-wide mb-1">
+                                {vendor.category}
+                              </p>
+                              <h3 className="font-heading text-xl font-semibold text-[#1A1A1A] leading-tight group-hover:text-[#2B895A] transition-colors">
+                                {vendor.name}
+                              </h3>
+                            </div>
 
-            {/* Load more */}
-            {visibleCount < filtered.length && (
-              <div className="text-center mt-12">
-                <motion.button
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => setVisibleCount((c) => c + 6)}
-                  className="inline-flex items-center gap-2 border-2 border-[#2B895A] text-[#2B895A] font-body text-sm font-semibold px-8 py-3.5 rounded-full hover:bg-[#2B895A] hover:text-white transition-all duration-200"
-                >
-                  Load more vendors
-                  <ChevronDown size={16} />
-                </motion.button>
-              </div>
+                            <div className="flex items-center gap-1.5 text-[#1A1A1A]/65">
+                              <MapPin size={13} />
+                              <span className="font-body text-xs">{vendor.location}</span>
+                            </div>
+
+                            <p className="font-body text-xs text-[#1A1A1A]/60 leading-relaxed line-clamp-2">
+                              {vendor.description}
+                            </p>
+
+                            <div className="flex items-center justify-between pt-3 border-t border-[#F7E9D4] mt-auto">
+                              <div className="flex items-center gap-1.5">
+                                <Star size={13} className="text-[#2B895A] fill-[#2B895A]" />
+                                <span className="font-body text-sm font-semibold text-[#1A1A1A]">{vendor.rating}</span>
+                                <span className="font-body text-xs text-[#1A1A1A]/65">({vendor.reviews})</span>
+                              </div>
+                              <span className="font-body text-xs font-semibold text-[#1A1A1A]/65">{vendor.price_range}</span>
+                            </div>
+
+                            <motion.span
+                              whileTap={{ scale: 0.97 }}
+                              className="mt-2 w-full flex items-center justify-center gap-2 bg-[#2B895A] group-hover:bg-[#1F6944] text-white font-body text-sm font-semibold py-2.5 rounded-full transition-colors duration-200"
+                            >
+                              View Profile <ArrowRight size={14} />
+                            </motion.span>
+                          </div>
+                        </motion.a>
+                      );
+                    })}
+                  </motion.div>
+                )}
+
+                {visibleCount < filtered.length && (
+                  <div className="text-center mt-12">
+                    <motion.button
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => setVisibleCount((c) => c + 6)}
+                      className="inline-flex items-center gap-2 border-2 border-[#2B895A] text-[#2B895A] font-body text-sm font-semibold px-8 py-3.5 rounded-full hover:bg-[#2B895A] hover:text-white transition-all duration-200"
+                    >
+                      Load more vendors
+                      <ChevronDown size={16} />
+                    </motion.button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -563,14 +517,9 @@ function VendorsContent() {
               <div className="flex items-center justify-between px-6 py-5 border-b border-[#F7E9D4]">
                 <div className="flex items-center gap-2">
                   <Filter size={15} className="text-[#2B895A]" />
-                  <h2 className="font-body text-sm font-semibold text-[#1A1A1A]">
-                    Filters
-                  </h2>
+                  <h2 className="font-body text-sm font-semibold text-[#1A1A1A]">Filters</h2>
                 </div>
-                <button
-                  onClick={() => setDrawerOpen(false)}
-                  className="text-[#1A1A1A]/50 hover:text-[#1A1A1A] p-1"
-                >
+                <button onClick={() => setDrawerOpen(false)} className="text-[#1A1A1A]/50 hover:text-[#1A1A1A] p-1">
                   <X size={20} />
                 </button>
               </div>

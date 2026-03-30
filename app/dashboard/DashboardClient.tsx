@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Heart, MessageSquare, CalendarDays, ArrowRight, BookmarkPlus } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
-import type { Vendor } from "@/lib/vendors";
+import type { SupabaseVendor } from "@/lib/supabase-vendors";
 
 interface Enquiry {
   id: string;
@@ -21,7 +21,7 @@ interface Profile {
 interface Props {
   profile: Profile | null;
   user: User;
-  savedVendors: Vendor[];
+  savedVendors: SupabaseVendor[];
   enquiries: Enquiry[];
 }
 
@@ -75,19 +75,15 @@ export default function DashboardClient({ profile, user, savedVendors, enquiries
             transition={{ duration: 0.5 }}
             className="flex items-center gap-5"
           >
-            {/* Avatar */}
             <div className="w-16 h-16 rounded-full bg-[#2B895A] flex items-center justify-center shrink-0">
-              <span className="font-heading text-2xl font-semibold text-white">
-                {initials}
-              </span>
+              <span className="font-heading text-2xl font-semibold text-white">{initials}</span>
             </div>
             <div>
               <p className="font-body text-xs text-[#2B895A] uppercase tracking-widest font-semibold mb-0.5">
                 Dashboard
               </p>
               <h1 className="font-heading text-3xl md:text-4xl font-light text-[#1A1A1A]">
-                Welcome back,{" "}
-                <span className="italic">{displayName.split(" ")[0]}</span>
+                Welcome back, <span className="italic">{displayName.split(" ")[0]}</span>
               </h1>
             </div>
           </motion.div>
@@ -99,24 +95,9 @@ export default function DashboardClient({ profile, user, savedVendors, enquiries
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              {
-                icon: Heart,
-                value: savedVendors.length,
-                label: "Saved Vendors",
-                color: "#2B895A",
-              },
-              {
-                icon: MessageSquare,
-                value: enquiries.length,
-                label: "Enquiries Sent",
-                color: "#7890a8",
-              },
-              {
-                icon: CalendarDays,
-                value: memberSince,
-                label: "Member Since",
-                color: "#c8905c",
-              },
+              { icon: Heart, value: savedVendors.length, label: "Saved Vendors", color: "#2B895A" },
+              { icon: MessageSquare, value: enquiries.length, label: "Enquiries Sent", color: "#7890a8" },
+              { icon: CalendarDays, value: memberSince, label: "Member Since", color: "#c8905c" },
             ].map(({ icon: Icon, value, label, color }, i) => (
               <motion.div
                 key={label}
@@ -132,9 +113,7 @@ export default function DashboardClient({ profile, user, savedVendors, enquiries
                   <Icon size={20} style={{ color }} />
                 </div>
                 <div>
-                  <p className="font-heading text-2xl font-semibold text-[#1A1A1A] leading-tight">
-                    {value}
-                  </p>
+                  <p className="font-heading text-2xl font-semibold text-[#1A1A1A] leading-tight">{value}</p>
                   <p className="font-body text-xs text-[#1A1A1A]/50">{label}</p>
                 </div>
               </motion.div>
@@ -164,9 +143,7 @@ export default function DashboardClient({ profile, user, savedVendors, enquiries
                 <div className="w-16 h-16 bg-[#2B895A]/8 rounded-full flex items-center justify-center mx-auto mb-4">
                   <BookmarkPlus size={24} className="text-[#2B895A]/60" />
                 </div>
-                <h3 className="font-heading text-xl font-light text-[#1A1A1A] mb-2">
-                  No saved vendors yet
-                </h3>
+                <h3 className="font-heading text-xl font-light text-[#1A1A1A] mb-2">No saved vendors yet</h3>
                 <p className="font-body text-sm text-[#1A1A1A]/50 mb-5">
                   Heart a vendor on their profile to save them here.
                 </p>
@@ -195,11 +172,9 @@ export default function DashboardClient({ profile, user, savedVendors, enquiries
                         <p className="font-body text-[10px] text-[#2B895A] uppercase tracking-widest font-semibold mb-0.5">
                           {vendor.category}
                         </p>
-                        <h3 className="font-heading text-xl font-light text-[#1A1A1A]">
-                          {vendor.name}
-                        </h3>
+                        <h3 className="font-heading text-xl font-light text-[#1A1A1A]">{vendor.name}</h3>
                         <p className="font-body text-xs text-[#1A1A1A]/50 mt-0.5">
-                          {vendor.location} · {vendor.priceRange}
+                          {vendor.location} · {vendor.price_range}
                         </p>
                       </div>
                       <div className="w-9 h-9 rounded-full bg-[#2B895A] flex items-center justify-center shrink-0">
@@ -239,12 +214,8 @@ export default function DashboardClient({ profile, user, savedVendors, enquiries
                     }`}
                   >
                     <div>
-                      <p className="font-body text-sm font-medium text-[#1A1A1A]">
-                        {enquiry.vendor_name}
-                      </p>
-                      <p className="font-body text-xs text-[#1A1A1A]/45 mt-0.5">
-                        {formatDate(enquiry.created_at)}
-                      </p>
+                      <p className="font-body text-sm font-medium text-[#1A1A1A]">{enquiry.vendor_name}</p>
+                      <p className="font-body text-xs text-[#1A1A1A]/45 mt-0.5">{formatDate(enquiry.created_at)}</p>
                     </div>
                     <span
                       className={`font-body text-xs font-semibold px-3 py-1 rounded-full capitalize ${

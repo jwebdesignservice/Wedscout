@@ -22,6 +22,11 @@ export interface Vendor {
   responseTime: string;
   services: string[];
   pricingTiers: PricingTier[];
+  instagram: string;
+  tiktok: string;
+  website: string;
+  profileImage: string;
+  galleryImages: string[];
 }
 
 export const vendors: Vendor[] = [
@@ -90,6 +95,18 @@ export const vendors: Vendor[] = [
         ],
       },
     ],
+    instagram: "@goldenhour.studio",
+    tiktok: "@goldenhour",
+    website: "goldenhourstudio.com",
+    profileImage: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=400&h=400&fit=crop",
+    galleryImages: [
+      "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&h=600&fit=crop",
+    ],
   },
   {
     id: "bloom-and-co",
@@ -155,6 +172,18 @@ export const vendors: Vendor[] = [
           "Dedicated floral coordinator",
         ],
       },
+    ],
+    instagram: "@bloomandco.dallas",
+    tiktok: "@bloomandco",
+    website: "bloomandcodallas.com",
+    profileImage: "https://images.unsplash.com/photo-1487530811015-780bf4e6d8e8?w=400&h=400&fit=crop",
+    galleryImages: [
+      "https://images.unsplash.com/photo-1487530811015-780bf4e6d8e8?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1490750967868-88df5691cc45?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1457089328109-e5d9bd499191?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1518977822534-7049a61ee0c2?w=800&h=600&fit=crop",
     ],
   },
   {
@@ -222,6 +251,18 @@ export const vendors: Vendor[] = [
         ],
       },
     ],
+    instagram: "@rhythmcollective.houston",
+    tiktok: "@rhythmcollective",
+    website: "rhythmcollectiveweddings.com",
+    profileImage: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop",
+    galleryImages: [
+      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1501612780327-45045538702b?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop",
+    ],
   },
   {
     id: "harvest-table",
@@ -287,6 +328,18 @@ export const vendors: Vendor[] = [
           "Complete linen & tableware",
         ],
       },
+    ],
+    instagram: "@harvesttable.tx",
+    tiktok: "@harvesttabletx",
+    website: "harvesttableco.com",
+    profileImage: "https://images.unsplash.com/photo-1555244162-803834f70033?w=400&h=400&fit=crop",
+    galleryImages: [
+      "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop",
     ],
   },
   {
@@ -354,6 +407,18 @@ export const vendors: Vendor[] = [
         ],
       },
     ],
+    instagram: "@eternalbands.austin",
+    tiktok: "@eternalbands",
+    website: "eternalbands.com",
+    profileImage: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    galleryImages: [
+      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1631982690223-8aa4d5c2a34e?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=800&h=600&fit=crop",
+    ],
   },
   {
     id: "glow-grace",
@@ -419,6 +484,18 @@ export const vendors: Vendor[] = [
           "Touch-up artist for ceremony",
         ],
       },
+    ],
+    instagram: "@glowandgrace.studio",
+    tiktok: "@glowgracestudio",
+    website: "glowandgracestudio.com",
+    profileImage: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=400&fit=crop",
+    galleryImages: [
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1487412912498-0447578fcca8?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1560066984-138daaa4e4e7?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&h=600&fit=crop",
     ],
   },
   {
@@ -488,6 +565,18 @@ export const vendors: Vendor[] = [
         ],
       },
     ],
+    instagram: "@ivoryfilms.co",
+    tiktok: "@ivoryfilms",
+    website: "ivoryfilms.co",
+    profileImage: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400&h=400&fit=crop",
+    galleryImages: [
+      "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1576633587382-13ddf37b1fc1?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1598387993441-a364f854cff0?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1614632537423-1e6c2e7e0aab?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop",
+    ],
   },
   {
     id: "planner-co",
@@ -555,6 +644,18 @@ export const vendors: Vendor[] = [
           "Post-wedding wrap-up",
         ],
       },
+    ],
+    instagram: "@theplannerco.tx",
+    tiktok: "@theplannerco",
+    website: "theplannerco.com",
+    profileImage: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=400&fit=crop",
+    galleryImages: [
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1549488497-4b59e85f2a2e?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1478146059778-26192a5d0e3e?w=800&h=600&fit=crop",
     ],
   },
   {
@@ -625,6 +726,18 @@ export const vendors: Vendor[] = [
         ],
       },
     ],
+    instagram: "@thegrandestate.austin",
+    tiktok: "@grandestate",
+    website: "thegrandestate.com",
+    profileImage: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=400&fit=crop",
+    galleryImages: [
+      "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1505932794465-147d1f1b2c97?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1478146059778-26192a5d0e3e?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1549488497-4b59e85f2a2e?w=800&h=600&fit=crop",
+    ],
   },
   {
     id: "paper-petal",
@@ -690,6 +803,18 @@ export const vendors: Vendor[] = [
           "White glove packaging",
         ],
       },
+    ],
+    instagram: "@paperandpetal.studio",
+    tiktok: "@paperandpetal",
+    website: "paperandpetalstudio.com",
+    profileImage: "https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=400&h=400&fit=crop",
+    galleryImages: [
+      "https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1471958680802-1345a694ba6d?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1516589091380-5d8e87df6999?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1574781330855-d0db8cc6a79c?w=800&h=600&fit=crop",
     ],
   },
   {
@@ -757,6 +882,18 @@ export const vendors: Vendor[] = [
         ],
       },
     ],
+    instagram: "@sweettokens.co",
+    tiktok: "@sweettokens",
+    website: "sweettokens.co",
+    profileImage: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400&h=400&fit=crop",
+    galleryImages: [
+      "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1541140134513-85a161dc4a00?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1499201238832-5ef7e600de73?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1508423134147-addf71308178?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1577003811926-53b288a6e5d0?w=800&h=600&fit=crop",
+    ],
   },
   {
     id: "wanderlust-escapes",
@@ -823,6 +960,18 @@ export const vendors: Vendor[] = [
           "24/7 on-trip support",
         ],
       },
+    ],
+    instagram: "@wanderlustescapes.travel",
+    tiktok: "@wanderlustescapes",
+    website: "wanderlustescapes.com",
+    profileImage: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&h=400&fit=crop",
+    galleryImages: [
+      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1500259571355-332da5cb07aa?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&h=600&fit=crop",
     ],
   },
 ];

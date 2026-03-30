@@ -17,33 +17,16 @@ import {
   Quote,
   CheckCircle,
   Loader2,
+  AtSign,
+  ExternalLink,
+  Globe,
 } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import {
-  PhotographyGraphic,
-  FloralsGraphic,
-  VideographyGraphic,
-  PlanningGraphic,
-} from "@/components/graphics/VendorCardGraphics";
-import type { Vendor } from "@/lib/vendors";
+import type { SupabaseVendor } from "@/lib/supabase-vendors";
 import { createClient } from "@/lib/supabase";
-
-const categoryGraphics: Record<string, React.ComponentType> = {
-  Photography: PhotographyGraphic,
-  "Florals & Decor": FloralsGraphic,
-  "Music & DJ": VideographyGraphic,
-  Catering: PlanningGraphic,
-  Jewellery: FloralsGraphic,
-  "Beauty & Hair": FloralsGraphic,
-  Videography: VideographyGraphic,
-  Planning: PlanningGraphic,
-  Venues: PlanningGraphic,
-  Invitations: PhotographyGraphic,
-  Favours: FloralsGraphic,
-  Honeymoon: PhotographyGraphic,
-};
 
 const tagColours: Record<string, string> = {
   "Top Rated": "bg-[#2B895A] text-white",
@@ -51,45 +34,6 @@ const tagColours: Record<string, string> = {
   Featured: "bg-[#1F6944] text-white",
   New: "bg-[#7890a8] text-white",
 };
-
-// Gallery tile colour palettes
-const galleryTiles = [
-  { bg: "#d4e8dd", accent: "#2B895A" },
-  { bg: "#e8ddd4", accent: "#c8905c" },
-  { bg: "#ddd4e8", accent: "#9880b8" },
-  { bg: "#d4dde8", accent: "#7890a8" },
-  { bg: "#e8e4d4", accent: "#a8905c" },
-  { bg: "#d4e8e4", accent: "#2B895A" },
-];
-
-function GalleryTile({ index, bg, accent }: { index: number; bg: string; accent: string }) {
-  return (
-    <div className="relative rounded-2xl overflow-hidden aspect-[4/3]" style={{ background: bg }}>
-      <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id={`dots-${index}`} x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.5" fill={accent} />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill={`url(#dots-${index})`} />
-      </svg>
-      <svg className="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id={`stripes-${index}`} x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <rect x="0" y="0" width="10" height="20" fill={accent} />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill={`url(#stripes-${index})`} />
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: accent, opacity: 0.3 }} />
-        <span className="font-body text-xs font-medium" style={{ color: accent, opacity: 0.7 }}>
-          Photo {index + 1}
-        </span>
-      </div>
-    </div>
-  );
-}
 
 const mockReviews = [
   {
@@ -126,7 +70,7 @@ interface FormErrors {
   message?: string;
 }
 
-export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
+export default function VendorProfilePage({ vendor }: { vendor: SupabaseVendor }) {
   const router = useRouter();
   const supabase = createClient();
 
@@ -145,7 +89,6 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
   });
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const Graphic = categoryGraphics[vendor.category] || PhotographyGraphic;
   const tagStyle = tagColours[vendor.tag] || "bg-[#1A1A1A] text-white";
 
   const sectionAnim = {
@@ -155,19 +98,16 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
     transition: { duration: 0.6 },
   };
 
-  // Load auth state + saved status + pre-fill form
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data }) => {
       const user = data.session?.user;
       if (!user) return;
       setUserId(user.id);
 
-      // Pre-fill form from user metadata/profile
       const name = user.user_metadata?.full_name ?? "";
       const email = user.email ?? "";
       setForm((f) => ({ ...f, name, email }));
 
-      // Check if already saved
       const { data: existing } = await supabase
         .from("saved_vendors")
         .select("id")
@@ -221,7 +161,6 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
     setErrors({});
     setEnquiryLoading(true);
 
-    // Insert into Supabase enquiries table
     await supabase.from("enquiries").insert({
       user_id: userId ?? null,
       vendor_id: vendor.id,
@@ -261,67 +200,112 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
       {/* Hero */}
       <section className="bg-[#FFF4E2] pb-16 px-6 lg:px-10">
         <div className="max-w-7xl mx-auto">
-          <div className="w-full h-72 rounded-3xl overflow-hidden mb-8">
-            <Graphic />
-          </div>
-
-          <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8">
-            <div className="flex-1">
-              <div className="flex flex-wrap items-center gap-3 mb-3">
-                <span className="font-body text-xs text-[#2B895A] font-semibold uppercase tracking-widest">
-                  {vendor.category}
-                </span>
-                <span className={`font-body text-[11px] font-semibold px-3 py-1 rounded-full ${tagStyle}`}>
-                  {vendor.tag}
-                </span>
-              </div>
-
-              <h1 className="font-heading text-4xl md:text-5xl font-light text-[#1A1A1A] leading-tight mb-3">
-                {vendor.name}
-              </h1>
-
-              <div className="flex flex-wrap items-center gap-5 text-[#1A1A1A]/65">
-                <div className="flex items-center gap-1.5">
-                  <MapPin size={14} />
-                  <span className="font-body text-sm">{vendor.location}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Star size={14} className="fill-[#2B895A] text-[#2B895A]" />
-                  <span className="font-body text-sm font-semibold text-[#1A1A1A]">{vendor.rating}</span>
-                  <span className="font-body text-sm">({vendor.reviews} reviews)</span>
-                </div>
-                <span className="font-body text-sm font-semibold">{vendor.priceRange}</span>
-              </div>
+          <div className="flex flex-col lg:flex-row gap-8 mb-8">
+            {/* Profile image */}
+            <div className="w-full lg:w-[60%] h-56 lg:h-80 rounded-3xl overflow-hidden relative shrink-0">
+              <Image
+                src={vendor.profile_image}
+                alt={vendor.name}
+                fill
+                unoptimized
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 60vw"
+              />
             </div>
 
-            <div className="flex items-center gap-3 lg:flex-col lg:items-stretch">
-              <motion.a
-                href="#enquiry"
-                whileTap={{ scale: 0.97 }}
-                className="flex-1 lg:flex-none inline-flex items-center justify-center gap-2 bg-[#2B895A] hover:bg-[#1F6944] text-white font-body text-sm font-semibold px-8 py-3.5 rounded-full transition-colors duration-200"
-              >
-                <Mail size={15} />
-                Send Enquiry
-              </motion.a>
-              <motion.button
-                whileTap={{ scale: saveLoading ? 1 : 0.97 }}
-                onClick={handleToggleSave}
-                disabled={saveLoading}
-                className={`w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
-                  saved
-                    ? "bg-[#2B895A] border-[#2B895A]"
-                    : "border-[#1A1A1A]/20 hover:border-[#2B895A]"
-                }`}
-              >
-                {saveLoading ? (
-                  <Loader2 size={15} className={`animate-spin ${saved ? "text-white" : "text-[#1A1A1A]/50"}`} />
-                ) : (
-                  <Heart
-                    size={16}
-                    className={saved ? "text-white fill-white" : "text-[#1A1A1A]/50"}
-                  />
-                )}
-              </motion.button>
+            {/* Vendor info */}
+            <div className="flex-1 flex flex-col justify-between">
+              <div>
+                <div className="flex flex-wrap items-center gap-3 mb-3">
+                  <span className="font-body text-xs text-[#2B895A] font-semibold uppercase tracking-widest">
+                    {vendor.category}
+                  </span>
+                  <span className={`font-body text-[11px] font-semibold px-3 py-1 rounded-full ${tagStyle}`}>
+                    {vendor.tag}
+                  </span>
+                </div>
+
+                <h1 className="font-heading text-4xl md:text-5xl font-light text-[#1A1A1A] leading-tight mb-3">
+                  {vendor.name}
+                </h1>
+
+                <div className="flex flex-wrap items-center gap-5 text-[#1A1A1A]/65 mb-4">
+                  <div className="flex items-center gap-1.5">
+                    <MapPin size={14} />
+                    <span className="font-body text-sm">{vendor.location}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Star size={14} className="fill-[#2B895A] text-[#2B895A]" />
+                    <span className="font-body text-sm font-semibold text-[#1A1A1A]">{vendor.rating}</span>
+                    <span className="font-body text-sm">({vendor.reviews} reviews)</span>
+                  </div>
+                  <span className="font-body text-sm font-semibold">{vendor.price_range}</span>
+                </div>
+
+                {/* Social links */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {vendor.instagram && (
+                    <a
+                      href={`https://instagram.com/${vendor.instagram.replace("@", "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 border border-[#1A1A1A]/15 rounded-full px-4 py-2 font-body text-xs text-[#1A1A1A]/65 hover:border-[#2B895A] hover:text-[#2B895A] transition-colors"
+                    >
+                      <AtSign size={12} />
+                      {vendor.instagram}
+                    </a>
+                  )}
+                  {vendor.tiktok && (
+                    <a
+                      href={`https://tiktok.com/${vendor.tiktok}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 border border-[#1A1A1A]/15 rounded-full px-4 py-2 font-body text-xs text-[#1A1A1A]/65 hover:border-[#2B895A] hover:text-[#2B895A] transition-colors"
+                    >
+                      <ExternalLink size={12} />
+                      {vendor.tiktok}
+                    </a>
+                  )}
+                  {vendor.website && (
+                    <a
+                      href={`https://${vendor.website}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 border border-[#1A1A1A]/15 rounded-full px-4 py-2 font-body text-xs text-[#1A1A1A]/65 hover:border-[#2B895A] hover:text-[#2B895A] transition-colors"
+                    >
+                      <Globe size={12} />
+                      {vendor.website}
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <motion.a
+                  href="#enquiry"
+                  whileTap={{ scale: 0.97 }}
+                  className="inline-flex items-center justify-center gap-2 bg-[#2B895A] hover:bg-[#1F6944] text-white font-body text-sm font-semibold px-8 py-3.5 rounded-full transition-colors duration-200"
+                >
+                  <Mail size={15} />
+                  Send Enquiry
+                </motion.a>
+                <motion.button
+                  whileTap={{ scale: saveLoading ? 1 : 0.97 }}
+                  onClick={handleToggleSave}
+                  disabled={saveLoading}
+                  className={`w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
+                    saved
+                      ? "bg-[#2B895A] border-[#2B895A]"
+                      : "border-[#1A1A1A]/20 hover:border-[#2B895A]"
+                  }`}
+                >
+                  {saveLoading ? (
+                    <Loader2 size={15} className={`animate-spin ${saved ? "text-white" : "text-[#1A1A1A]/50"}`} />
+                  ) : (
+                    <Heart size={16} className={saved ? "text-white fill-white" : "text-[#1A1A1A]/50"} />
+                  )}
+                </motion.button>
+              </div>
             </div>
           </div>
         </div>
@@ -343,9 +327,9 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
               </div>
               <div className="space-y-4">
                 {[
-                  { icon: Award, number: `${vendor.yearsExperience}+`, label: "Years Experience" },
-                  { icon: Users, number: `${vendor.weddingsDone}+`, label: "Weddings Done" },
-                  { icon: Clock, number: vendor.responseTime, label: "Response Time" },
+                  { icon: Award, number: `${vendor.years_experience}+`, label: "Years Experience" },
+                  { icon: Users, number: `${vendor.weddings_done}+`, label: "Weddings Done" },
+                  { icon: Clock, number: vendor.response_time, label: "Response Time" },
                 ].map(({ icon: Icon, number, label }) => (
                   <div key={label} className="bg-white rounded-2xl p-5 flex items-center gap-4 shadow-sm border border-[#F7E9D4]">
                     <div className="w-10 h-10 bg-[#2B895A]/10 rounded-xl flex items-center justify-center shrink-0">
@@ -364,21 +348,32 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
       </section>
 
       {/* Gallery */}
-      <section className="bg-[#FFF4E2] py-20 px-6 lg:px-10">
-        <div className="max-w-7xl mx-auto">
-          <motion.div {...sectionAnim}>
-            <p className="font-body text-xs text-[#2B895A] uppercase tracking-widest font-semibold mb-3">Portfolio</p>
-            <h2 className="font-heading text-3xl md:text-4xl font-light text-[#1A1A1A] mb-8">
-              Our <span className="italic">Work</span>
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {galleryTiles.map((tile, i) => (
-                <GalleryTile key={i} index={i} bg={tile.bg} accent={tile.accent} />
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {vendor.gallery_images && vendor.gallery_images.length > 0 && (
+        <section className="bg-[#FFF4E2] py-20 px-6 lg:px-10">
+          <div className="max-w-7xl mx-auto">
+            <motion.div {...sectionAnim}>
+              <p className="font-body text-xs text-[#2B895A] uppercase tracking-widest font-semibold mb-3">Portfolio</p>
+              <h2 className="font-heading text-3xl md:text-4xl font-light text-[#1A1A1A] mb-8">
+                Our <span className="italic">Work</span>
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {vendor.gallery_images.map((src, i) => (
+                  <div key={i} className="group relative rounded-2xl overflow-hidden aspect-[4/3]">
+                    <Image
+                      src={src}
+                      alt={`${vendor.name} gallery ${i + 1}`}
+                      fill
+                      unoptimized
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 50vw, 33vw"
+                    />
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       {/* Pricing */}
       <section className="bg-[#1A1A1A] py-20 px-6 lg:px-10">
@@ -389,7 +384,7 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
               Services & <span className="italic">Pricing</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {vendor.pricingTiers.map((tier, i) => (
+              {vendor.pricing_tiers.map((tier, i) => (
                 <motion.div
                   key={tier.name}
                   initial={{ opacity: 0, y: 20 }}
@@ -494,7 +489,7 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
               <p className="font-body text-sm text-[#1A1A1A]/60 mb-10">
                 Fill in the form below and{" "}
                 <span className="font-medium text-[#1A1A1A]">{vendor.name}</span>{" "}
-                will be in touch within {vendor.responseTime.toLowerCase()}.
+                will be in touch within {vendor.response_time.toLowerCase()}.
               </p>
 
               {submitted ? (
@@ -509,7 +504,7 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
                   <h3 className="font-heading text-2xl text-[#1A1A1A] mb-2">Enquiry sent!</h3>
                   <p className="font-body text-sm text-[#1A1A1A]/60">
                     Thank you for reaching out. {vendor.name} will be in touch with you within{" "}
-                    {vendor.responseTime.toLowerCase()}.
+                    {vendor.response_time.toLowerCase()}.
                   </p>
                   <button
                     onClick={() => {
@@ -528,7 +523,6 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
                   noValidate
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    {/* Name */}
                     <div>
                       <label className="font-body text-xs font-semibold text-[#1A1A1A] uppercase tracking-wide block mb-1.5">
                         Full Name *
@@ -545,7 +539,6 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
                       {errors.name && <p className="font-body text-xs text-red-500 mt-1">{errors.name}</p>}
                     </div>
 
-                    {/* Email */}
                     <div>
                       <label className="font-body text-xs font-semibold text-[#1A1A1A] uppercase tracking-wide block mb-1.5">
                         Email *
@@ -562,7 +555,6 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
                       {errors.email && <p className="font-body text-xs text-red-500 mt-1">{errors.email}</p>}
                     </div>
 
-                    {/* Phone */}
                     <div>
                       <label className="font-body text-xs font-semibold text-[#1A1A1A] uppercase tracking-wide block mb-1.5">
                         Phone
@@ -576,7 +568,6 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
                       />
                     </div>
 
-                    {/* Wedding Date */}
                     <div>
                       <label className="font-body text-xs font-semibold text-[#1A1A1A] uppercase tracking-wide block mb-1.5">
                         Wedding Date
@@ -590,7 +581,6 @@ export default function VendorProfilePage({ vendor }: { vendor: Vendor }) {
                     </div>
                   </div>
 
-                  {/* Message */}
                   <div>
                     <label className="font-body text-xs font-semibold text-[#1A1A1A] uppercase tracking-wide block mb-1.5">
                       Message *

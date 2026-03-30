@@ -34,13 +34,14 @@ export async function middleware(request: NextRequest) {
 
   const protectedPaths = ["/dashboard", "/account"];
   const authPaths = ["/login", "/signup"];
+  const isAdminPath = pathname === "/admin" || pathname.startsWith("/admin/");
 
   const isProtected = protectedPaths.some(
     (p) => pathname === p || pathname.startsWith(p + "/")
   );
   const isAuthPage = authPaths.some((p) => pathname === p);
 
-  if (isProtected && !user) {
+  if ((isProtected || isAdminPath) && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
@@ -50,6 +51,21 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
     return NextResponse.redirect(url);
+  }
+
+  // Check admin role for /admin/* routes
+  if (isAdminPath && user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (!profile || profile.role !== "admin") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/";
+      return NextResponse.redirect(url);
+    }
   }
 
   return supabaseResponse;

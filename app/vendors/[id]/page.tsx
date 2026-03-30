@@ -1,10 +1,6 @@
-import { vendors } from "@/lib/vendors";
-import VendorProfilePage from "./VendorProfilePage";
 import { notFound } from "next/navigation";
-
-export function generateStaticParams() {
-  return vendors.map((v) => ({ id: v.id }));
-}
+import { createServerClient } from "@/lib/supabase-server";
+import VendorProfilePage from "./VendorProfilePage";
 
 export default async function Page({
   params,
@@ -12,7 +8,15 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const vendor = vendors.find((v) => v.id === id);
+  const supabase = await createServerClient();
+
+  const { data: vendor } = await supabase
+    .from("vendors")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+
   if (!vendor) notFound();
+
   return <VendorProfilePage vendor={vendor} />;
 }

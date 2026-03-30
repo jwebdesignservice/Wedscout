@@ -38,10 +38,10 @@ alter table public.profiles enable row level security;
 alter table public.saved_vendors enable row level security;
 alter table public.enquiries enable row level security;
 
-create policy 'Users can view own profile' on public.profiles for select using (auth.uid() = id);
-create policy 'Users can update own profile' on public.profiles for update using (auth.uid() = id);
-create policy 'Users can view own saved vendors' on public.saved_vendors for all using (auth.uid() = user_id);
-create policy 'Users can manage own enquiries' on public.enquiries for all using (auth.uid() = user_id);
+create policy "Users can view own profile" on public.profiles for select using (auth.uid() = id);
+create policy "Users can update own profile" on public.profiles for update using (auth.uid() = id);
+create policy "Users can view own saved vendors" on public.saved_vendors for all using (auth.uid() = user_id);
+create policy "Users can manage own enquiries" on public.enquiries for all using (auth.uid() = user_id);
 
 -- Auto-create profile on signup
 create or replace function public.handle_new_user()
