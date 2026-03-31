@@ -127,7 +127,7 @@ export default function CategoriesPage() {
       <Navbar />
 
       {/* Page Header */}
-      <section className="relative bg-[#FFF4E2] pt-[72px] pb-16 px-6 lg:px-10 overflow-hidden">
+      <section className="relative bg-[#F7E9D4] pt-[136px] pb-16 px-6 lg:px-10 overflow-hidden">
         <CategoriesDecor />
         <div className="relative max-w-7xl mx-auto">
           <motion.div
@@ -153,8 +153,14 @@ export default function CategoriesPage() {
       </section>
 
       {/* Category Grid */}
-      <section className="bg-[#F7E9D4] py-20 px-6 lg:px-10">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative bg-[#FFF4E2] py-20 px-6 lg:px-10 overflow-hidden">
+        {/* Wavy line decoration — top-right */}
+        <svg className="absolute top-0 right-0 w-80 h-64 pointer-events-none z-0" viewBox="0 0 320 256" fill="none" aria-hidden="true">
+          <path d="M320 30 Q270 55 320 80 Q370 105 320 130 Q270 155 320 180 Q370 205 320 230" stroke="#2B895A" strokeOpacity="0.13" strokeWidth="1.5" fill="none" />
+          <path d="M300 10 Q250 35 300 60 Q350 85 300 110 Q250 135 300 160 Q350 185 300 210 Q250 235 300 256" stroke="#2B895A" strokeOpacity="0.12" strokeWidth="1" fill="none" />
+          <path d="M280 0 Q230 25 280 50 Q330 75 280 100 Q230 125 280 150 Q330 175 280 200 Q230 225 280 256" stroke="#2B895A" strokeOpacity="0.10" strokeWidth="1" fill="none" />
+        </svg>
+        <div className="relative z-10 max-w-7xl mx-auto">
           <motion.div
             variants={container}
             initial="hidden"

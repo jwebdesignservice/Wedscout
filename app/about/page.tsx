@@ -81,7 +81,7 @@ export default function AboutPage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="bg-[#FFF4E2] pt-[72px] pb-20 px-6 lg:px-10">
+      <section className="bg-[#F7E9D4] pt-[72px] pb-20 px-6 lg:px-10">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -123,8 +123,16 @@ export default function AboutPage() {
       </section>
 
       {/* Mission Pillars */}
-      <section className="bg-[#F7E9D4] py-20 px-6 lg:px-10">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative bg-[#F7E9D4] py-20 px-6 lg:px-10 overflow-hidden">
+        {/* Scattered diamonds */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 1200 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          {[[80, 60], [280, 180], [520, 50], [750, 210], [960, 80], [1100, 300], [200, 350], [650, 390], [440, 120]].map(([cx, cy], i) => (
+            <g key={i} transform={`translate(${cx} ${cy}) rotate(45)`}>
+              <rect x="-5" y="-5" width="10" height="10" fill="#2B895A" fillOpacity="0.14" />
+            </g>
+          ))}
+        </svg>
+        <div className="relative z-10 max-w-7xl mx-auto">
           <motion.div {...sectionAnim} className="mb-12">
             <p className="font-body text-xs text-[#2B895A] uppercase tracking-widest font-semibold mb-3">
               What We Stand For
@@ -163,8 +171,23 @@ export default function AboutPage() {
       </section>
 
       {/* Stats */}
-      <section className="bg-[#1A1A1A] py-20 px-6 lg:px-10">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative bg-[#1A1A1A] py-20 px-6 lg:px-10 overflow-hidden">
+        {/* Dot grid */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" aria-hidden="true">
+          <defs>
+            <pattern id="dots-about-stats" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+              <circle cx="1" cy="1" r="1" fill="white" fillOpacity="0.12" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dots-about-stats)" />
+        </svg>
+        {/* Abstract watermark */}
+        <svg className="absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none z-0" width="220" height="220" viewBox="0 0 220 220" fill="none" aria-hidden="true">
+          <circle cx="110" cy="110" r="100" stroke="white" strokeOpacity="0.12" strokeWidth="1" />
+          <circle cx="110" cy="110" r="70" stroke="white" strokeOpacity="0.10" strokeWidth="1" />
+          <circle cx="110" cy="110" r="40" stroke="white" strokeOpacity="0.10" strokeWidth="1" />
+        </svg>
+        <div className="relative z-10 max-w-7xl mx-auto">
           <motion.div {...sectionAnim} className="mb-12 text-center">
             <p className="font-body text-xs text-[#2B895A] uppercase tracking-widest font-semibold mb-3">
               The Numbers

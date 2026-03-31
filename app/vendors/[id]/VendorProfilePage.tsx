@@ -25,7 +25,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import type { SupabaseVendor } from "@/lib/supabase-vendors";
+import type { DemoVendor } from "@/lib/vendor-store";
 import { createClient } from "@/lib/supabase";
 
 const tagColours: Record<string, string> = {
@@ -70,7 +70,7 @@ interface FormErrors {
   message?: string;
 }
 
-export default function VendorProfilePage({ vendor }: { vendor: SupabaseVendor }) {
+export default function VendorProfilePage({ vendor }: { vendor: DemoVendor }) {
   const router = useRouter();
   const supabase = createClient();
 

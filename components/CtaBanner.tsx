@@ -18,9 +18,29 @@ export default function CtaBanner() {
           transition={{ duration: 0.6 }}
           className="bg-[#1A1A1A] rounded-3xl px-10 py-16 md:py-20 flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden"
         >
+          {/* Dot grid overlay */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" aria-hidden="true">
+            <defs>
+              <pattern id="dots-cta" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                <circle cx="1" cy="1" r="1" fill="white" fillOpacity="0.05" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#dots-cta)" />
+          </svg>
+
+          {/* Corner accent — top-right L-shape */}
+          <svg className="absolute top-0 right-0 w-24 h-24 pointer-events-none z-0" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+            <path d="M96 22 L68 22 L68 0" stroke="#2B895A" strokeOpacity="0.3" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+
+          {/* Corner accent — bottom-left L-shape */}
+          <svg className="absolute bottom-0 left-0 w-24 h-24 pointer-events-none z-0" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+            <path d="M0 74 L28 74 L28 96" stroke="#2B895A" strokeOpacity="0.3" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+
           {/* Scattered diamond texture */}
           <svg
-            className="absolute inset-0 w-full h-full pointer-events-none"
+            className="absolute inset-0 w-full h-full pointer-events-none z-0"
             aria-hidden="true"
           >
             {[

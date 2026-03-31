@@ -27,11 +27,25 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="relative bg-[#1A1A1A] py-24 px-6 lg:px-10 overflow-hidden">
+    <section id="how-it-works" className="relative bg-[#1A1A1A] py-24 px-6 lg:px-10 overflow-hidden">
       {/* Dot grid texture */}
       <HowItWorksTexture />
 
-      <div className="relative max-w-7xl mx-auto">
+      {/* Large geometric circle outlines */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+        <circle cx="160" cy="260" r="190" stroke="white" strokeOpacity="0.04" strokeWidth="1" />
+        <circle cx="920" cy="90" r="145" stroke="white" strokeOpacity="0.04" strokeWidth="1" />
+        <circle cx="1120" cy="370" r="105" stroke="white" strokeOpacity="0.04" strokeWidth="1" />
+      </svg>
+
+      {/* Scattered small square outlines */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+        {[[140, 75], [360, 390], [590, 55], [810, 430], [1060, 115], [410, 195], [920, 310], [240, 340]].map(([cx, cy], i) => (
+          <rect key={i} x={cx - 6} y={cy - 6} width="12" height="12" stroke="#2B895A" strokeOpacity="0.15" strokeWidth="1" />
+        ))}
+      </svg>
+
+      <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
           <motion.p
@@ -59,7 +73,7 @@ export default function HowItWorks() {
         <div className="relative grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
           {/* Dashed connector line (desktop only) */}
           <div
-            className="hidden md:block absolute top-11 left-[calc(16.67%+2rem)] right-[calc(16.67%+2rem)] h-px border-t border-dashed border-white/15 z-0"
+            className="hidden md:block absolute top-11 left-[calc(16.67%+2rem)] right-[calc(16.67%+2rem)] h-px border-t border-dashed border-white/15 -z-10"
             aria-hidden="true"
           />
 
@@ -85,7 +99,7 @@ export default function HowItWorks() {
                 <motion.div
                   whileHover={{ scale: 1.1 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="relative w-24 h-24 rounded-full bg-white/8 border border-white/15
+                  className="relative w-24 h-24 rounded-full bg-[#1A1A1A] border border-white/15
                     flex items-center justify-center shrink-0 cursor-pointer
                     hover:shadow-lg hover:shadow-[#2B895A]/20 transition-shadow duration-300"
                 >

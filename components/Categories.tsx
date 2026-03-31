@@ -48,7 +48,27 @@ export default function Categories() {
       {/* Corner decoration */}
       <CategoriesDecor />
 
-      <div className="relative max-w-7xl mx-auto">
+      {/* Diagonal hatch — bottom-left corner */}
+      <svg className="absolute bottom-0 left-0 w-72 h-72 pointer-events-none z-0" aria-hidden="true">
+        <defs>
+          <pattern id="hatch-categories" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="16" stroke="#2B895A" strokeWidth="1" strokeOpacity="0.18" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#hatch-categories)" />
+      </svg>
+
+      {/* Scattered plus shapes — mid-section */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        {[[300, 150], [620, 80], [900, 210], [460, 360], [750, 290], [140, 270], [1050, 160]].map(([cx, cy], i) => (
+          <g key={i} fill="#2B895A" fillOpacity="0.14">
+            <rect x={cx - 1} y={cy - 7} width="2" height="14" />
+            <rect x={cx - 7} y={cy - 1} width="14" height="2" />
+          </g>
+        ))}
+      </svg>
+
+      <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
           <div>

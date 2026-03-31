@@ -98,7 +98,7 @@ export const vendors: Vendor[] = [
     instagram: "@goldenhour.studio",
     tiktok: "@goldenhour",
     website: "goldenhourstudio.com",
-    profileImage: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=400&h=400&fit=crop",
+    profileImage: "https://picsum.photos/seed/photo1/400/400",
     galleryImages: [
       "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=800&h=600&fit=crop",
@@ -176,7 +176,7 @@ export const vendors: Vendor[] = [
     instagram: "@bloomandco.dallas",
     tiktok: "@bloomandco",
     website: "bloomandcodallas.com",
-    profileImage: "https://images.unsplash.com/photo-1487530811015-780bf4e6d8e8?w=400&h=400&fit=crop",
+    profileImage: "https://picsum.photos/seed/floral/400/400",
     galleryImages: [
       "https://images.unsplash.com/photo-1487530811015-780bf4e6d8e8?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=800&h=600&fit=crop",
@@ -254,7 +254,7 @@ export const vendors: Vendor[] = [
     instagram: "@rhythmcollective.houston",
     tiktok: "@rhythmcollective",
     website: "rhythmcollectiveweddings.com",
-    profileImage: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop",
+    profileImage: "https://picsum.photos/seed/music/400/400",
     galleryImages: [
       "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&h=600&fit=crop",
@@ -332,7 +332,7 @@ export const vendors: Vendor[] = [
     instagram: "@harvesttable.tx",
     tiktok: "@harvesttabletx",
     website: "harvesttableco.com",
-    profileImage: "https://images.unsplash.com/photo-1555244162-803834f70033?w=400&h=400&fit=crop",
+    profileImage: "https://picsum.photos/seed/food/400/400",
     galleryImages: [
       "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop",
@@ -410,7 +410,7 @@ export const vendors: Vendor[] = [
     instagram: "@eternalbands.austin",
     tiktok: "@eternalbands",
     website: "eternalbands.com",
-    profileImage: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+    profileImage: "https://picsum.photos/seed/jewel/400/400",
     galleryImages: [
       "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&h=600&fit=crop",
@@ -488,7 +488,7 @@ export const vendors: Vendor[] = [
     instagram: "@glowandgrace.studio",
     tiktok: "@glowgracestudio",
     website: "glowandgracestudio.com",
-    profileImage: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=400&fit=crop",
+    profileImage: "https://picsum.photos/seed/beauty/400/400",
     galleryImages: [
       "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1487412912498-0447578fcca8?w=800&h=600&fit=crop",
@@ -568,7 +568,7 @@ export const vendors: Vendor[] = [
     instagram: "@ivoryfilms.co",
     tiktok: "@ivoryfilms",
     website: "ivoryfilms.co",
-    profileImage: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400&h=400&fit=crop",
+    profileImage: "https://picsum.photos/seed/video/400/400",
     galleryImages: [
       "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1576633587382-13ddf37b1fc1?w=800&h=600&fit=crop",
@@ -648,7 +648,7 @@ export const vendors: Vendor[] = [
     instagram: "@theplannerco.tx",
     tiktok: "@theplannerco",
     website: "theplannerco.com",
-    profileImage: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=400&fit=crop",
+    profileImage: "https://picsum.photos/seed/wedding/400/400",
     galleryImages: [
       "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&h=600&fit=crop",
@@ -729,7 +729,7 @@ export const vendors: Vendor[] = [
     instagram: "@thegrandestate.austin",
     tiktok: "@grandestate",
     website: "thegrandestate.com",
-    profileImage: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=400&fit=crop",
+    profileImage: "https://picsum.photos/seed/venue/400/400",
     galleryImages: [
       "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1505932794465-147d1f1b2c97?w=800&h=600&fit=crop",
@@ -807,7 +807,7 @@ export const vendors: Vendor[] = [
     instagram: "@paperandpetal.studio",
     tiktok: "@paperandpetal",
     website: "paperandpetalstudio.com",
-    profileImage: "https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=400&h=400&fit=crop",
+    profileImage: "https://picsum.photos/seed/invite/400/400",
     galleryImages: [
       "https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1471958680802-1345a694ba6d?w=800&h=600&fit=crop",
@@ -885,7 +885,7 @@ export const vendors: Vendor[] = [
     instagram: "@sweettokens.co",
     tiktok: "@sweettokens",
     website: "sweettokens.co",
-    profileImage: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400&h=400&fit=crop",
+    profileImage: "https://picsum.photos/seed/favour/400/400",
     galleryImages: [
       "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop",
@@ -964,7 +964,7 @@ export const vendors: Vendor[] = [
     instagram: "@wanderlustescapes.travel",
     tiktok: "@wanderlustescapes",
     website: "wanderlustescapes.com",
-    profileImage: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&h=400&fit=crop",
+    profileImage: "https://picsum.photos/seed/travel/400/400",
     galleryImages: [
       "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&h=600&fit=crop",

@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Search, MapPin, ChevronDown } from "lucide-react";
-import HeroIllustration from "@/components/graphics/HeroIllustration";
 
 const h1Words = ["Find", "vendors", "who"];
 const h1Line2 = ["match", "your"];
@@ -14,8 +15,22 @@ const stats = [
 ];
 
 export default function Hero() {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [locationQuery, setLocationQuery] = useState("");
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (searchQuery.trim()) params.set("search", searchQuery.trim());
+    if (locationQuery.trim()) params.set("location", locationQuery.trim());
+    router.push(`/vendors${params.toString() ? `?${params.toString()}` : ""}`);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") handleSearch();
+  };
   return (
-    <section className="relative min-h-screen bg-[#FFF4E2] overflow-hidden">
+    <section className="relative min-h-screen bg-[#FFF4E2] overflow-hidden px-6 lg:px-10">
       {/* Subtle SVG arc pattern behind right column */}
       <svg
         className="absolute top-0 right-0 w-[55%] h-full pointer-events-none opacity-60"
@@ -31,14 +46,33 @@ export default function Hero() {
             cy="200"
             r={r}
             stroke="#2B895A"
-            strokeOpacity="0.05"
+            strokeOpacity="0.13"
             strokeWidth="1"
             fill="none"
           />
         ))}
       </svg>
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-28 md:pt-36 pb-20 min-h-screen flex items-center">
+      {/* Decorative dot grid — left column background */}
+      <svg className="absolute left-0 top-0 w-1/2 h-full pointer-events-none z-0" aria-hidden="true">
+        <defs>
+          <pattern id="dots-hero" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="1" fill="#1A1A1A" fillOpacity="0.12" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dots-hero)" />
+      </svg>
+
+      {/* Scattered small diamonds — bottom-left */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        {[[55, 680], [120, 715], [85, 760], [195, 695], [38, 745], [165, 772], [250, 720]].map(([cx, cy], i) => (
+          <g key={i} transform={`translate(${cx} ${cy}) rotate(45)`}>
+            <rect x="-5" y="-5" width="10" height="10" fill="#2B895A" fillOpacity="0.15" />
+          </g>
+        ))}
+      </svg>
+
+      <div className="relative z-10 max-w-7xl mx-auto pt-24 md:pt-28 pb-20 w-full min-h-screen flex items-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full">
 
           {/* ---- LEFT COLUMN ---- */}
@@ -55,7 +89,7 @@ export default function Hero() {
             </motion.div>
 
             {/* H1 — word-by-word animation */}
-            <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl xl:text-[80px] font-light text-[#1A1A1A] leading-[1.05] mb-6">
+            <h1 className="font-heading text-4xl md:text-5xl lg:text-[61px] xl:text-[68px] font-light text-[#1A1A1A] leading-[1.05] mb-6">
               {/* Line 1 */}
               <span className="block">
                 {h1Words.map((word, i) => (
@@ -122,23 +156,23 @@ export default function Hero() {
                   <input
                     type="text"
                     placeholder="Photographers, florists…"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
                     className="font-body text-sm text-[#1A1A1A] placeholder:text-[#1A1A1A]/40 bg-transparent outline-none w-full"
                   />
                 </div>
                 {/* Vertical divider */}
                 <div className="w-px h-6 bg-[#F7E9D4] shrink-0" />
-                {/* Location */}
-                <div className="flex items-center gap-2 px-4 py-3.5 w-36 shrink-0">
+                {/* Location (fixed to Texas) */}
+                <div className="flex items-center gap-2 px-4 py-3.5 shrink-0">
                   <MapPin size={15} className="text-[#2B895A] shrink-0" />
-                  <input
-                    type="text"
-                    placeholder="Texas"
-                    className="font-body text-sm text-[#1A1A1A] placeholder:text-[#1A1A1A]/40 bg-transparent outline-none w-full"
-                  />
+                  <span className="font-body text-sm text-[#1A1A1A]">Texas</span>
                 </div>
                 {/* Search button inside the pill */}
                 <motion.button
                   whileTap={{ scale: 0.97 }}
+                  onClick={handleSearch}
                   className="bg-[#2B895A] hover:bg-[#1F6944] text-white font-body text-sm font-semibold px-5 py-2.5 rounded-full transition-colors duration-200 shrink-0 whitespace-nowrap"
                 >
                   Search
@@ -171,14 +205,22 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* ---- RIGHT COLUMN — illustration ---- */}
+          {/* ---- RIGHT COLUMN — hero image ---- */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55 }}
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.45 }}
             className="hidden lg:flex items-center justify-center w-full h-full"
           >
-            <HeroIllustration className="w-full max-w-[480px]" />
+            <div className="relative w-full max-w-[480px] h-[580px] rounded-3xl overflow-hidden shadow-2xl shadow-[#1A1A1A]/15">
+              <img
+                src="/hero-couple.jpg"
+                alt="Happy couple on their wedding day"
+                className="w-full h-full object-cover object-top"
+              />
+              {/* Subtle green tint overlay bottom */}
+              <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#2B895A]/20 to-transparent pointer-events-none" />
+            </div>
           </motion.div>
         </div>
       </div>

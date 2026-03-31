@@ -34,7 +34,23 @@ export default function Testimonials() {
       {/* Decorative quote mark */}
       <TestimonialsQuote />
 
-      <div className="relative max-w-7xl mx-auto">
+      {/* Diagonal stripe pattern across entire section */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" aria-hidden="true">
+        <defs>
+          <pattern id="stripes-testimonials" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="40" stroke="white" strokeWidth="1" strokeOpacity="0.05" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#stripes-testimonials)" />
+      </svg>
+
+      {/* Large faint circles bleeding off left/right edges */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+        <circle cx="-40" cy="250" r="260" stroke="white" strokeOpacity="0.06" strokeWidth="1.5" />
+        <circle cx="1240" cy="250" r="210" stroke="white" strokeOpacity="0.06" strokeWidth="1.5" />
+      </svg>
+
+      <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
           <motion.p

@@ -201,7 +201,7 @@ export default function AccountPage() {
                           type="text"
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
-                          className="w-full pl-10 pr-4 py-3 font-body text-sm bg-[#FFF4E2] border border-[#1A1A1A]/15 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B895A]/20 focus:border-[#2B895A] text-[#1A1A1A] transition-colors"
+                          className="w-full pl-10 pr-4 py-3 font-body text-sm bg-white border border-[#1A1A1A]/15 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B895A]/20 focus:border-[#2B895A] text-[#1A1A1A] transition-colors"
                         />
                       </div>
                     </div>
@@ -282,7 +282,7 @@ export default function AccountPage() {
                           onChange={(e) => setNewPassword(e.target.value)}
                           placeholder="At least 8 characters"
                           autoComplete="new-password"
-                          className="w-full pl-10 pr-11 py-3 font-body text-sm bg-[#FFF4E2] border border-[#1A1A1A]/15 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B895A]/20 focus:border-[#2B895A] text-[#1A1A1A] transition-colors"
+                          className="w-full pl-10 pr-11 py-3 font-body text-sm bg-white border border-[#1A1A1A]/15 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B895A]/20 focus:border-[#2B895A] text-[#1A1A1A] transition-colors"
                         />
                         <button
                           type="button"
@@ -307,7 +307,7 @@ export default function AccountPage() {
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           placeholder="Repeat new password"
                           autoComplete="new-password"
-                          className="w-full pl-10 pr-11 py-3 font-body text-sm bg-[#FFF4E2] border border-[#1A1A1A]/15 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B895A]/20 focus:border-[#2B895A] text-[#1A1A1A] transition-colors"
+                          className="w-full pl-10 pr-11 py-3 font-body text-sm bg-white border border-[#1A1A1A]/15 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B895A]/20 focus:border-[#2B895A] text-[#1A1A1A] transition-colors"
                         />
                         <button
                           type="button"

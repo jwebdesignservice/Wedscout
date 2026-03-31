@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 type LogoVariant = "default" | "light" | "icon-only";
 
 interface LogoProps {
@@ -7,51 +9,45 @@ interface LogoProps {
   className?: string;
 }
 
-function LogoIcon({ size = 28 }: { size?: number }) {
-  return (
-    <svg
-      width={size}
-      height={Math.round(size * 1.14)}
-      viewBox="0 0 28 32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      {/* Ring */}
-      <circle cx="14" cy="12" r="7.5" stroke="#2B895A" strokeWidth="2.2" fill="none" />
-      <circle cx="14" cy="12" r="3" fill="#2B895A" />
-      {/* Pin stem */}
-      <path d="M14 19.5 L14 28" stroke="#2B895A" strokeWidth="2.2" strokeLinecap="round" />
-      {/* Pin base arc */}
-      <path
-        d="M10.5 27 Q14 31 17.5 27"
-        stroke="#2B895A"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        fill="none"
-      />
-    </svg>
-  );
-}
-
 export default function Logo({ variant = "default", className = "" }: LogoProps) {
-  const textColor = variant === "light" ? "text-white" : "text-[#1A1A1A]";
-
   if (variant === "icon-only") {
     return (
       <span className={className}>
-        <LogoIcon size={32} />
+        <Image
+          src="/logo.png"
+          alt="WedScout"
+          width={40}
+          height={40}
+          className="object-contain"
+        />
       </span>
     );
   }
 
+  if (variant === "light") {
+    return (
+      <div className={`flex items-center ${className}`}>
+        <Image
+          src="/logo-light.png"
+          alt="WedScout"
+          width={120}
+          height={60}
+          className="object-contain"
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      <LogoIcon size={26} />
-      <span className={`text-[22px] leading-none tracking-tight ${textColor}`}>
-        <span className="font-heading italic font-light">Wed</span>
-        <span className="font-body font-semibold">Scout</span>
-      </span>
+    <div className={`flex items-center ${className}`}>
+      <Image
+        src="/logo.png"
+        alt="WedScout"
+        width={100}
+        height={36}
+        className="object-contain"
+        priority
+      />
     </div>
   );
 }

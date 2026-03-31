@@ -102,7 +102,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
                   autoComplete="email"
-                  className="w-full pl-10 pr-4 py-3 font-body text-sm bg-[#FFF4E2] border border-[#1A1A1A]/15 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B895A]/20 focus:border-[#2B895A] text-[#1A1A1A] placeholder-[#1A1A1A]/40 transition-colors"
+                  className="w-full pl-10 pr-4 py-3 font-body text-sm bg-white border border-[#1A1A1A]/15 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B895A]/20 focus:border-[#2B895A] text-[#1A1A1A] placeholder-[#1A1A1A]/40 transition-colors"
                 />
               </div>
             </div>
@@ -120,7 +120,7 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Your password"
                   autoComplete="current-password"
-                  className="w-full pl-10 pr-11 py-3 font-body text-sm bg-[#FFF4E2] border border-[#1A1A1A]/15 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B895A]/20 focus:border-[#2B895A] text-[#1A1A1A] placeholder-[#1A1A1A]/40 transition-colors"
+                  className="w-full pl-10 pr-11 py-3 font-body text-sm bg-white border border-[#1A1A1A]/15 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2B895A]/20 focus:border-[#2B895A] text-[#1A1A1A] placeholder-[#1A1A1A]/40 transition-colors"
                 />
                 <button
                   type="button"
@@ -166,7 +166,7 @@ export default function LoginPage() {
             onClick={handleGoogle}
             disabled={googleLoading}
             whileTap={{ scale: googleLoading ? 1 : 0.97 }}
-            className="w-full border border-[#1A1A1A]/15 hover:border-[#1A1A1A]/30 hover:bg-[#FFF4E2] text-[#1A1A1A] font-body text-sm font-medium py-3.5 rounded-full transition-all duration-200 flex items-center justify-center gap-2"
+            className="w-full border border-[#1A1A1A]/15 hover:border-[#1A1A1A]/30 hover:bg-white text-[#1A1A1A] font-body text-sm font-medium py-3.5 rounded-full transition-all duration-200 flex items-center justify-center gap-2"
           >
             {googleLoading ? (
               <Loader2 size={16} className="animate-spin" />

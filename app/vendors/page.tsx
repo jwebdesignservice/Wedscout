@@ -31,7 +31,7 @@ import {
   VideographyGraphic,
   PlanningGraphic,
 } from "@/components/graphics/VendorCardGraphics";
-import { getVendors, type SupabaseVendor } from "@/lib/supabase-vendors";
+import { getActiveVendors, type DemoVendor } from "@/lib/vendor-store";
 
 const categoryIcons: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   Photography: Camera,
@@ -123,13 +123,15 @@ function LoadingSkeleton() {
 function VendorsContent() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category") || "";
+  const initialSearch = searchParams.get("search") || "";
+  const initialLocation = searchParams.get("location") || "";
 
-  const [vendors, setVendors] = useState<SupabaseVendor[]>([]);
+  const [vendors, setVendors] = useState<DemoVendor[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [search, setSearch] = useState("");
-  const [location, setLocation] = useState("");
+  const [search, setSearch] = useState(initialSearch);
+  const [location, setLocation] = useState(initialLocation);
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     initialCategory ? [initialCategory] : []
   );
@@ -139,10 +141,13 @@ function VendorsContent() {
   const [visibleCount, setVisibleCount] = useState(9);
 
   useEffect(() => {
-    getVendors()
-      .then(setVendors)
-      .catch(() => setError("Unable to load vendors. Please try again."))
-      .finally(() => setLoading(false));
+    setVendors(getActiveVendors());
+    setLoading(false);
+    
+    // Listen for updates from admin
+    const handleUpdate = () => setVendors(getActiveVendors());
+    window.addEventListener("vendors-updated", handleUpdate);
+    return () => window.removeEventListener("vendors-updated", handleUpdate);
   }, []);
 
   useEffect(() => {
@@ -312,8 +317,17 @@ function VendorsContent() {
       <Navbar />
 
       {/* Page Header */}
-      <section className="bg-[#FFF4E2] pt-[72px]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+      <section className="relative bg-[#F7E9D4] pt-[72px] overflow-hidden">
+        {/* Subtle dot grid */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" aria-hidden="true">
+          <defs>
+            <pattern id="dots-vendors-header" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+              <circle cx="1" cy="1" r="1" fill="#1A1A1A" fillOpacity="0.12" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dots-vendors-header)" />
+        </svg>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-16">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <p className="font-body text-xs text-[#2B895A] uppercase tracking-widest font-semibold mb-3">Directory</p>
             <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-light text-[#1A1A1A] leading-tight mb-4">
@@ -353,14 +367,14 @@ function VendorsContent() {
 
       {/* Active filter pills */}
       {activeFilters.length > 0 && (
-        <div className="bg-[#FFF4E2] border-t border-[#F7E9D4]">
+        <div className="bg-[#F7E9D4]">
           <div className="max-w-7xl mx-auto px-6 lg:px-10 pb-4 flex flex-wrap gap-2 items-center">
             <span className="font-body text-xs text-[#1A1A1A]/50 mr-1">Active filters:</span>
             {activeFilters.map((f, i) => (
               <button
                 key={i}
                 onClick={f.clear}
-                className="flex items-center gap-1.5 bg-[#2B895A]/10 text-[#2B895A] font-body text-xs font-medium px-3 py-1.5 rounded-full hover:bg-[#2B895A]/20 transition-colors"
+                className="flex items-center gap-1.5 bg-white text-[#1A1A1A] font-body text-xs font-medium px-3 py-1.5 rounded-full border border-[#1A1A1A]/10 hover:border-[#2B895A] hover:text-[#2B895A] transition-colors"
               >
                 {f.label}
                 <X size={11} />
@@ -371,7 +385,7 @@ function VendorsContent() {
       )}
 
       {/* Main layout */}
-      <section className="bg-[#F7E9D4] py-12 px-6 lg:px-10">
+      <section className="bg-[#FFF4E2] py-12 px-6 lg:px-10">
         <div className="max-w-7xl mx-auto flex gap-10">
           {/* Desktop Sidebar */}
           <aside className="hidden md:block w-64 shrink-0">
