@@ -277,13 +277,13 @@ export default function AdminVendorsPage() {
           </p>
         </div>
         <div className="flex gap-3">
-          <button
-            onClick={openAddForm}
+          <a
+            href="/admin/vendors/new"
             className="flex items-center gap-2 bg-[#2B895A] hover:bg-[#1F6944] text-white font-body text-sm font-semibold px-5 py-3 rounded-full transition-colors"
           >
             <Plus size={15} />
             Add Vendor
-          </button>
+          </a>
         </div>
       </div>
 
@@ -439,12 +439,12 @@ export default function AdminVendorsPage() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => openEditForm(vendor)}
+                          <a
+                            href={`/admin/vendors/${vendor.id}/edit`}
                             className="flex items-center gap-1.5 text-[#2B895A] border border-[#2B895A]/30 hover:border-[#2B895A] hover:bg-[#2B895A]/5 font-body text-xs font-medium px-3 py-1.5 rounded-lg transition-colors"
                           >
                             <Edit size={12} /> Edit
-                          </button>
+                          </a>
                           <button
                             onClick={() => setDeleteId(vendor.id)}
                             className="flex items-center gap-1.5 text-red-500 border border-red-200 hover:border-red-400 hover:bg-red-50 font-body text-xs font-medium px-3 py-1.5 rounded-lg transition-colors"
@@ -485,9 +485,9 @@ export default function AdminVendorsPage() {
                     </span>
                   </div>
                   <div className="flex items-center gap-3 mt-3">
-                    <button onClick={() => openEditForm(vendor)} className="flex items-center gap-1.5 text-[#2B895A] border border-[#2B895A]/30 font-body text-xs font-medium px-3 py-1.5 rounded-lg">
+                    <a href={`/admin/vendors/${vendor.id}/edit`} className="flex items-center gap-1.5 text-[#2B895A] border border-[#2B895A]/30 font-body text-xs font-medium px-3 py-1.5 rounded-lg">
                       <Edit size={11} /> Edit
-                    </button>
+                    </a>
                     <button onClick={() => setDeleteId(vendor.id)} className="flex items-center gap-1.5 text-red-500 border border-red-200 font-body text-xs font-medium px-3 py-1.5 rounded-lg">
                       <Trash2 size={11} /> Delete
                     </button>

@@ -188,21 +188,13 @@ export default function Navbar() {
                 </div>
               </>
             ) : (
-              <>
-                <a
-                  href="/login"
-                  className="font-body text-sm font-medium text-[#1A1A1A]/70 hover:text-[#1A1A1A] transition-colors"
-                >
-                  Sign In
-                </a>
-                <motion.a
-                  href="/vendors"
-                  whileTap={{ scale: 0.97 }}
-                  className="font-body text-sm font-semibold bg-[#2B895A] text-white px-5 py-2.5 rounded-full hover:bg-[#1F6944] hover:shadow-md transition-all duration-200"
-                >
-                  Browse Vendors
-                </motion.a>
-              </>
+              <motion.a
+                href="/vendors"
+                whileTap={{ scale: 0.97 }}
+                className="font-body text-sm font-semibold bg-[#2B895A] text-white px-5 py-2.5 rounded-full hover:bg-[#1F6944] hover:shadow-md transition-all duration-200"
+              >
+                Browse Vendors
+              </motion.a>
             )}
           </div>
 
@@ -288,15 +280,7 @@ export default function Navbar() {
                       Sign Out
                     </button>
                   </>
-                ) : (
-                  <a
-                    href="/login"
-                    className="inline-flex items-center justify-center border border-[#1A1A1A]/20 text-[#1A1A1A] font-body text-sm font-medium px-8 py-4 rounded-full hover:bg-[#F7E9D4] transition-colors"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Sign In
-                  </a>
-                )}
+                ) : null}
               </motion.div>
             </nav>
           </motion.div>
